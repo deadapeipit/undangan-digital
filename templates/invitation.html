@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan - {{ .NamaAcara }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f0f0; color: #333; overflow-x: hidden; }
+        .section { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; scroll-snap-align: start; }
+        .container { max-width: 600px; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        h1 { font-size: 28px; margin-bottom: 20px; }
+        .photo img { width: 100%; border-radius: 10px; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .rsvp-section textarea { width: 100%; padding: 12px; border-radius: 8px; resize: vertical; }
+        .rsvp-section button { padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .wishes-section { margin-top: 20px; }
+        .wish { background: #f8f8f8; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+        nav { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; }
+        nav a { margin: 0 10px; text-decoration: none; color: #007bff; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="#section1">Undangan</a>
+        <a href="#section2">Gambar</a>
+        <a href="#section3">Detail</a>
+        <a href="#section4">Peta</a>
+        <a href="#section5">Konfirmasi</a>
+    </nav>
+    
+    <div id="section1" class="section">
+        <div class="container">
+            <div class="photo"><img src="{{ .Foto }}" alt="Invitation Image"></div>
+            <h1>{{ .NamaAcara }}</h1>
+            <p><strong>Nama:</strong> {{ .NamaUndangan }}</p>
+        </div>
+    </div>
+
+    <div id="section2" class="section">
+        <div class="container">
+            <h1>{{ .NamaAcara }}</h1>
+            <div class="photo"><img src="{{ .Foto }}" alt="Event Photo"></div>
+        </div>
+    </div>
+
+    <div id="section3" class="section">
+        <div class="container">
+            <h1><strong>Mempelai Pria:</strong> {{ .NamaAcara }}</h1>
+            <div class="photo"><img src="{{ .Foto }}" alt="Event Detail Image"></div>
+            <h1><strong>Anak </strong> {{ .NamaAcara }} dari {{ .NamaAcara }} dan {{ .NamaAcara }}</h1>
+        </div>
+    </div>
+
+    <div id="section3" class="section">
+        <div class="container">
+            <h1><strong>Mempelai Wanita:</strong> {{ .NamaAcara }}</h1>
+            <div class="photo"><img src="{{ .Foto }}" alt="Event Detail Image"></div>
+            <h1><strong>Anak </strong> {{ .NamaAcara }} dari {{ .NamaAcara }} dan {{ .NamaAcara }}</h1>
+        </div>
+    </div>
+
+    <div id="section4" class="section">
+        <div class="container">
+            <p><strong>Tempat:</strong> {{ .TempatAcara }}</p>
+            <p><strong>Tanggal:</strong> {{ .Tanggal }} {{ .Bulan }} {{ .Tahun }}</p>
+            <p><strong>Waktu:</strong> {{ .Jam }}:{{ .Menit }} WIB</p>
+            <iframe src="https://www.google.com/maps/embed?pb={{ .GoogleMapsEmbed }}&output=embed" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div id="section5" class="section">
+        <div class="container">
+            <h3>Konfirmasi Kehadiran</h3>
+            <div class="photo"><img src="{{ .Foto }}" alt="RSVP Image"></div>
+            <form id="rsvp-form">
+                <p><strong>Jumlah Orang:</strong> {{ .JumlahOrang }}</p>
+                <textarea name="wishes" placeholder="Pesan atau harapan Anda..."></textarea>
+                <button type="submit">Kirim</button>
+            </form>
+            <div class="wishes-section">
+                <h3>Pesan dari Para Undangan:</h3>
+                <div id="wishes-container"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

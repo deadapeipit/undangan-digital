@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Acara</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 8px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                font-size: 14px;
+            }
+
+            .form-group button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Tambah Acara</h1>
+
+        <form id="acara-form">
+            <div class="form-group">
+                <label for="id_acara">ID Acara</label>
+                <input type="text" id="id_acara" name="id_acara" required placeholder="Masukkan ID Acara">
+            </div>
+
+            <div class="form-group">
+                <label for="nama">Nama Acara</label>
+                <input type="text" id="nama" name="nama" required placeholder="Masukkan nama Acara">
+            </div>
+
+            <div class="form-group">
+                <label for="jumlah_orang">Jumlah Orang</label>
+                <input type="number" id="jumlah_orang" name="jumlah_orang" required placeholder="Masukkan jumlah orang">
+            </div>
+
+            <div class="form-group">
+                <label for="tanggal_acara">Tanggal & Waktu Acara</label>
+                <input type="datetime-local" id="tanggal_acara" name="tanggal_acara" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tempat">Tempat Acara</label>
+                <input type="text" id="tempat" name="tempat" required placeholder="Masukkan tempat acara">
+            </div>
+
+            <div class="form-group">
+                <label for="foto">Foto Acara</label>
+                <input type="text" id="foto" name="foto" required placeholder="Masukkan URL Foto Acara">
+            </div>
+
+            <div class="form-group">
+                <label for="template">Template</label>
+                <input type="text" id="template" name="template" placeholder="Template Acara">
+            </div>
+
+            <div class="form-group">
+                <label for="lokasi_pin_google_map">Lokasi Pin Google Map (Link google map)</label>
+                <input type="text" id="lokasi_pin_google_map" name="lokasi_pin_google_map" placeholder="Masukkan Pin Lokasi Google Maps">
+            </div>
+
+            <div class="form-group">
+                <label for="google_maps_embed">Google Maps Embed (pb value di embed share loc google map)</label>
+                <input type="text" id="google_maps_embed" name="google_maps_embed" placeholder="Masukkan Embed Google Maps">
+            </div>
+
+            <button type="submit">Kirim Acara</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('acara-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            const id = document.getElementById('id_acara').value;
+            const nama = document.getElementById('nama').value;
+            const tempat = document.getElementById('tempat').value;
+            const tanggal = document.getElementById('tanggal_acara').value;
+            const foto = document.getElementById('foto').value;
+            const template = document.getElementById('template').value;
+            const lokasi_pin_google_map = document.getElementById('lokasi_pin_google_map').value;
+            const google_maps_embed = document.getElementById('google_maps_embed').value;
+
+            const data = {
+                id: id,
+                nama_acara: nama,
+                tempat_acara: tempat,
+                tanggal_acara: tanggal,
+                foto: foto,
+                template: template,
+                lokasi_pin_google_map: lokasi_pin_google_map,
+                google_maps_embed: google_maps_embed,
+            };
+
+            // Send the data to your backend API (replace <API_URL> with the actual API endpoint)
+            fetch('/acara', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Acara created successfully") {
+                    alert('Acara berhasil ditambah!');
+                    document.getElementById('acara-form').reset(); // Reset the form
+                } else {
+                    alert('Terjadi kesalahan saat menambah acara.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menambah acara.');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

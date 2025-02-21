@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan - {{ .NamaAcara }}</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .invitation-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Header Section */
+        .invitation-header {
+            margin-bottom: 30px;
+        }
+
+        .invitation-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #4a90e2;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Event Image */
+        .event-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event-image img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Event Details */
+        .event-details {
+            padding: 20px;
+            background: #f3f1f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .event-details h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #6a4c93;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .event-details p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .event-details a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* RSVP Section */
+        .rsvp-container {
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .rsvp-container h3 {
+            font-size: 26px;
+            font-family: 'Playfair Display', serif;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .rsvp-container label {
+            font-size: 18px;
+            color: #333;
+            margin-right: 15px;
+        }
+
+        .rsvp-container input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .rsvp-container button {
+            padding: 15px 30px;
+            background: #f79c42;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .rsvp-container button:hover {
+            background: #e68a00;
+            transform: scale(1.05);
+        }
+
+        /* Wishes Section */
+        .wishes-container {
+            margin-top: 30px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .wishes-container h3 {
+            font-size: 26px;
+            font-family: 'Playfair Display', serif;
+            color: #6a4c93;
+            margin-bottom: 20px;
+        }
+
+        .wish-item {
+            background: #f0e5ff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+
+        .wish-item span {
+            font-weight: bold;
+            color: #f79c42;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 768px) {
+            .invitation-container {
+                padding: 20px;
+            }
+
+            .invitation-header h1 {
+                font-size: 34px;
+            }
+
+            .event-details h2 {
+                font-size: 24px;
+            }
+
+            .event-details p {
+                font-size: 16px;
+            }
+
+            .rsvp-container button {
+                font-size: 16px;
+            }
+
+            .wish-item {
+                font-size: 14px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .invitation-header h1 {
+                font-size: 28px;
+            }
+
+            .event-details h2 {
+                font-size: 22px;
+            }
+
+            .event-details p {
+                font-size: 14px;
+            }
+
+            .rsvp-container button {
+                font-size: 14px;
+                padding: 12px 25px;
+            }
+
+            .wish-item {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="invitation-container">
+        <!-- Header Section -->
+        <div class="invitation-header">
+            <h1>{{ .NamaAcara }}</h1>
+        </div>
+
+        <!-- Event Image -->
+        <div class="event-image">
+            <img src="{{ .Foto }}" alt="Event Image">
+        </div>
+
+        <!-- Event Details -->
+        <div class="event-details">
+            <h2>Detail Acara</h2>
+            <p><strong>Tempat:</strong> {{ .TempatAcara }}</p>
+            <p><strong>Tanggal:</strong> {{ .Tanggal }} {{ .Bulan }} {{ .Tahun }}</p>
+            <p><strong>Waktu:</strong> {{ .Jam }}:{{ .Menit }} WIB</p>
+            <p><strong>Lokasi:</strong> <a href="{{ .LokasiPinGoogleMap }}" target="_blank">Lihat di Google Maps</a></p>
+
+            <!-- Google Maps Embed -->
+            <iframe src="https://www.google.com/maps/embed?pb={{ .GoogleMapsEmbed }}&output=embed" width="100%"
+                height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <!-- RSVP Section -->
+        <div class="rsvp-container">
+            {{ if .Hadir }}
+            <h3>Terima kasih atas konfirmasinya!</h3>
+            <p>Ditunggu kehadirannya!</p>
+            {{ else }}
+            <h3>Konfirmasi Kehadiran</h3>
+            <form class="rsvp-form" id="rsvp-form">
+                <div>
+                    <input type="radio" id="attending" name="response" value="yes" required>
+                    <label for="attending">Ya, Saya Hadir</label>
+                </div>
+                <div>
+                    <input type="radio" id="not-attending" name="response" value="no" required>
+                    <label for="not-attending">Tidak, Saya Tidak Bisa Hadir</label>
+                </div>
+                <button type="submit">Kirim</button>
+            </form>
+            {{ end }}
+        </div>
+
+        <!-- Wishes Section -->
+        <div class="wishes-container">
+            <h3>Pesan dari Para Undangan:</h3>
+            <div id="wishes-container">
+                <!-- Wishes will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            reloadWishes();
+        };
+
+        document.getElementById('rsvp-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const eventId = "{{ .ID }}";
+            const formData = new FormData(this);
+            const data = {
+                response: formData.get('response')
+            };
+
+            fetch(`/rsvp/${eventId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    reloadWishes();
+                    document.querySelector('.rsvp-container').innerHTML = ` 
+                        <h3>Terima kasih atas konfirmasinya!</h3>
+                        <p>Ditunggu kehadirannya!</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error submitting RSVP:', error);
+                    alert('Terjadi kesalahan saat mengirimkan RSVP Anda.');
+                });
+        });
+
+        function reloadWishes() {
+            fetch('/invitations')
+                .then(response => response.json())
+                .then(data => {
+                    const wishesContainer = document.getElementById('wishes-container');
+                    wishesContainer.innerHTML = '';
+                    data.forEach(undangan => {
+                        if (undangan.wishes.trim() !== "") {
+                            const wishDiv = document.createElement('div');
+                            wishDiv.classList.add('wish-item');
+                            wishDiv.innerHTML = `<p><span>${undangan.nama}</span>: ${undangan.wishes}</p>`;
+                            wishesContainer.appendChild(wishDiv);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching wishes:', error);
+                });
+        }
+    </script>
+
+</body>
+
+</html>
