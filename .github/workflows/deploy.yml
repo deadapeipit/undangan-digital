@@ -1,0 +1,71 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Debug SSH Key
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" | head -n 3
+          echo "Key saved as key.pem"
+          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > key.pem
+          chmod 600 key.pem
+          file key.pem
+
+      - name: Debug Deployment Path
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ec2-user
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
+          echo "Current directory on EC2:"
+          pwd
+          echo "Listing files in home directory:"
+          ls -la /home/ec2-user/
+          echo "Checking inside undangan-digital folder:"
+          ls -la /home/ec2-user/undangan-digital/
+          EOF
+        
+
+      - name: Deploy via SSH
+        env:
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ec2-user
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
+          cd /home/ec2-user/
+        
+          # Ensure SSH authentication is set up
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+        
+          # Clone using SSH if the directory does not exist
+          if [ ! -d "undangan-digital" ]; then
+          git clone git@github.com:YOUR_USERNAME/undangan-digital.git
+          fi
+        
+          cd undangan-digital
+          git pull origin main
+        
+          # Build and restart the app
+          go build -o undangan-digital main.go .
+          
+          # Fix permissions
+          chmod +x undangan-digital
+
+          # Restart the service (if using systemd)
+          sudo systemctl restart undangan-digital || true
+          
+          # Run the app in the background if not using systemd
+          nohup ./undangan-digital > app.log 2>&1 &
+
+          EOF
+        
